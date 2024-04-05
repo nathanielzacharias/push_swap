@@ -66,4 +66,15 @@ typedef	struct s_stack
 
 }	t_stack;
 
+/*
+*	think of the whole problem as a system
+*	with 2 stacks
+*/
+typedef struct s_ps_system
+{
+	t_stack	a;
+	t_stack	b;
+	int		is_done;
+}	t_systm;
+
 #endif

@@ -14,12 +14,24 @@
 #include <stdio.h>
 
 
+void	solve(t_systm s)
+{
+	printf("s.a.len is: %d\n", s.a.len);
+}
+
+t_systm init(t_systm s, int ac, char *av[])
+{
+	(void) av;
+	s.a.len = ac - 1;
+	return (s);
+}
+
 int	main(int ac, char *av[])
 {
-	t_stack	a;
+	t_systm	system;
 
-	(void) av;
-	a.len = ac -1;
-	printf("a.len is: %d\n", a.len );
-
+	system.is_done = -1;
+	system = init(system, ac, av);
+	solve(system);
+	return (0);
 }
