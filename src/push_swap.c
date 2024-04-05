@@ -11,11 +11,15 @@
 /* ************************************************************************** */
 
 #include <push_swap.h>
+#include <stdio.h>
 
-int	main(void)
+
+int	main(int ac, char *av[])
 {
-	char	*test = "where is the love";
+	t_stack	a;
 
-	if (!ft_strncmp(test, "where", 5))
-		write(1, test, 18);
+	(void) av;
+	a.len = ac -1;
+	printf("a.len is: %d\n", a.len );
+
 }
