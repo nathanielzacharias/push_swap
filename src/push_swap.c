@@ -12,6 +12,7 @@
 
 #include <push_swap.h>
 #include <stdio.h>
+#include <limits.h>
 
 
 int	main(int ac, char *av[])
@@ -20,6 +21,16 @@ int	main(int ac, char *av[])
 
 	(void) av;
 	a.len = ac -1;
+	a.max = INT_MIN;
+
+	int i;
+	i = -1;
+
+	while (++i < ac -1)
+	{
+
+	}
+
 	printf("a.len is: %d\n", a.len );
 
 }
