@@ -39,15 +39,14 @@
 */
 typedef	struct	s_lnode
 {
+	int		val;
 	struct s_lnode	*nx;
 	struct s_lnode	*pv;
-	int		val;
 	int		tdr;
 	int		tcr;
 	int		dr;
 	int		cr;
-
-}	t_ln;
+}	t_node;
 
 /*
 *	hd	head
@@ -56,14 +55,14 @@ typedef	struct	s_lnode
 */
 typedef	struct s_stack
 {
-	t_ln	**hd;
-	t_ln	**tl;
 	int		len;
+	t_node	**head;
+	t_node	**tail;
 	int		max;
 	int		min;
 	int		sorted;
 	int		op;
 
-}	t_stack;
+}	t_stacklist;
 
 #endif
