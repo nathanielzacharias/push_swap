@@ -64,6 +64,20 @@ void	add_node_to_back(t_node **list, t_node *new)
 	}
 }
 
+void	print_list(t_stacklist *lst)
+{
+	int i;
+	t_node *print_this;
+	print_this = *lst->head;
+	i = - 1;
+	while(print_this)
+	{
+		i++;
+		printf("val in node %d is: %d\n", i, print_this->val);
+		print_this = print_this->nx;
+	}
+}
+
 int	main(int ac, char *av[])
 {
 	t_stacklist	a;
@@ -80,15 +94,9 @@ int	main(int ac, char *av[])
 		add_node_to_back(a.head, new);
 	}
 
-	t_node *print_this;
-	print_this = *a.head;
-	i = - 1;
-	while(print_this)
-	{
-		i++;
-		printf("val in node %d is: %d\n", i, print_this->val);
-		print_this = print_this->nx;
-	}
+	// print_list(&a);
+
+	
 
 	printf("a.len is: %d\n", a.len );
 	//free
