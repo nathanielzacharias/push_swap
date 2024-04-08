@@ -33,36 +33,36 @@
 // 	return (s.hd);
 // }
 
-// t_node *p_newnode(void *data)
-// {
-// 	t_node *new_node;
+t_node *p_newnode(char *data)
+{
+	t_node *new_node;
 
-// 	new_node = (t_node *)malloc(sizeof(t_node));
-// 	if (!new)
-// 		return(NULL);
-// 	new_node->val = data;
-// 	new_node->nx = NULL;
-// 	return(new_node);
-// }
+	new_node = (t_node *)malloc(sizeof(t_node));
+	if (!new_node)
+		return(NULL);
+	new_node->val = ft_atoi(data);
+	new_node->nx = NULL;
+	return(new_node);
+}
 
-// void	add_node_to_back(t_node **list, t_node *new)
-// {
-// 	t_node	last;
-// 	if (!new)
-// 		return ;
-// 	if (!(*list))
-// 	{
-// 		*list = new;
-// 		return ;
-// 	}
-// 	else
-// 	{
-// 		last = *list;
-// 		while(last->nx)
-// 			last = last->nx;
-// 		last->nx = new;
-// 	}
-// }
+void	add_node_to_back(t_node **list, t_node *new)
+{
+	t_node	*last;
+	if (!new)
+		return ;
+	if (!(*list))
+	{
+		*list = new;
+		return ;
+	}
+	else
+	{
+		last = *list;
+		while(last->nx)
+			last = last->nx;
+		last->nx = new;
+	}
+}
 
 int	main(int ac, char *av[])
 {
@@ -71,15 +71,26 @@ int	main(int ac, char *av[])
 	t_node *new;
 
 	a.len = ac -1;
-	a.head = (t_node *)malloc(sizeof(t_node *));
+	a.head = (t_node **)malloc(sizeof(t_node *));
 	// a.tail = (t_node *)malloc(sizeof(t_node *));
 	i = -1;
 	while (++i < a.len)
 	{
-		new = newnode(av[i]);
+		new = p_newnode(av[i + 1]);
 		add_node_to_back(a.head, new);
 	}
 
-	printf("a.len is: %d\n", a.len );
+	t_node *print_this;
+	print_this = *a.head;
+	i = - 1;
+	while(print_this)
+	{
+		i++;
+		printf("val in node %d is: %d\n", i, print_this->val);
+		print_this = print_this->nx;
+	}
 
+	printf("a.len is: %d\n", a.len );
+	//free
+	return (0);
 }
