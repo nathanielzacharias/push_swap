@@ -73,8 +73,40 @@ void	print_list(t_stacklist *lst)
 	while(print_this)
 	{
 		i++;
-		printf("val in node %d is: %d\n", i, print_this->val);
+		printf("tdr in node %d is: %d\n", i, print_this->tdr);
 		print_this = print_this->nx;
+	}
+}
+
+void	putstruct(t_node *node, int *tmp)
+{
+	printf("node's val is: %d\n", node->val);
+	
+	// printf("*tmp is: %d\n", tmp[1]);
+	int i;
+	i = -1;
+	while(tmp && *(tmp + 1))
+	{
+		++i;
+		// printf("in putstruct while, i is: %d\n",i );
+		if (node->val == tmp[i])
+		{
+			node->tdr = i;
+			break ;
+		}
+	}
+
+}
+
+void	iter_stacklist(t_stacklist *lst, int *tmp, void (*f)(t_node *, int *))
+{
+	t_node	*this_node;
+
+	this_node = *lst->head;
+	while(this_node)
+	{
+		f(this_node, tmp);
+		this_node = this_node->nx;
 	}
 }
 
@@ -96,7 +128,46 @@ int	main(int ac, char *av[])
 
 	// print_list(&a);
 
+//find out tdr using array
+	int *tmp_arr;
+	tmp_arr = malloc(sizeof(int) * (a.len));
 	
+	//write from av to array
+	int c = -1;
+	while (++c < a.len)
+		tmp_arr[c] = ft_atoi(av[c + 1]);
+	
+	//sort the array
+	c = -1;
+	int max;
+	int tmp;
+	while(++c < (a.len - 1))
+	{
+		max = tmp_arr[c];
+		if (tmp_arr[c + 1] < max)
+		{
+			tmp = tmp_arr[c];
+			tmp_arr[c] = tmp_arr[c + 1];
+			tmp_arr[c + 1] = tmp;
+			c = -1;
+		}
+	}
+
+	//test print the arr
+	c = -1;
+	while (++c < a.len)
+		printf("val in tmp_arr is: %d\n", tmp_arr[c]);
+
+	printf("before iter\n");
+	//iter thru list, then iter thru array to find the idx to update the tdr 
+	iter_stacklist(&a, tmp_arr, putstruct);
+	printf("after iter\n");
+
+
+
+	print_list(&a);
+
+
 
 	printf("a.len is: %d\n", a.len );
 	//free
