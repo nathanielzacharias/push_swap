@@ -155,14 +155,6 @@ void	solve_for_two(t_stacklist *a)
 	return;
 }
 
-void	add_node_to_front(t_node **head, t_node *new_first_node)
-{
-	if (new_first_node)
-	{
-		new_first_node->nx = *head;
-		*head = new_first_node;
-	}
-}
 
 void	rem_node_from_front(t_node **head)
 {
@@ -184,30 +176,38 @@ void	update_len(t_stacklist *lst)
 	lst->len = len;
 }
 
-void	push_to(t_stacklist b, t_stacklist a)
+void	add_node_to_front(t_node **head, t_node *new_first_node)
 {
+	// if (new_first_node)
+	// {
+		new_first_node->nx = *head;
+		*head = new_first_node;
+	// }
+}
 
-
-	add_node_to_front(b.head, *a.head);
+void	push_to(t_stacklist *b, t_stacklist *a)
+{
+	printf("address of b->head: %p")
+	add_node_to_front(&b->head, (a->head));
 	printf("in push to\n");
-	rem_node_from_front(a.head);
+	// rem_node_from_front(a->head);
 
-	update_len(&a);
-	update_len(&b);
+	// update_len(a);
+	// update_len(b);
 	write(1, "pb\n", 3);
 }
 
-void	solve(t_systm s)
+void	solve(t_systm *s)
 {
-	if (s.a.len < 2)
+	if (s->a.len < 2)
 		return ;
-	else if (s.a.len == 2)
-		solve_for_two(&(s.a));
+	else if (s->a.len == 2)
+		solve_for_two(&(s->a));
 
-	else if (s.a.len > 2)
+	else if (s->a.len > 2)
 	{
-		printf("in solve 204\n");
-		push_to(s.b, s.a);
+		printf("in solve 208\n");
+		push_to(&(s->b), &(s->a));
 		solve(s);
 	}
 }
@@ -237,7 +237,8 @@ int	main(int ac, char *av[])
 	// t_stacklist cmp;
 	// int			i;
 	// t_node *new;
-	// a = (t_stacklist){0};
+	*a = (t_stacklist){0};
+	*b = (t_stacklist){0};
 	a->len = ac -1;
 	make_new_list(a, av);
 
@@ -246,7 +247,7 @@ int	main(int ac, char *av[])
 
 	system.a = *a;
 	system.b = *b;
-	solve(system); //prints &a
+	solve(&system); //prints &a
 	// solve(a);
 	free_list(a);
 	free(a);

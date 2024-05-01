@@ -56,8 +56,9 @@ typedef	struct	s_lnode
 typedef	struct s_stack
 {
 	int		len;
-	t_node	**head;
-	t_node	**tail;
+	t_node	*head; // &node, this can never ne bull
+	t_node	*tail;
+	// t_node	*first_node; // this can be null, meaning no lit
 	int		max;
 	int		min;
 	// int		sorted;
