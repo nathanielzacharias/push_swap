@@ -80,7 +80,7 @@ void	make_new_list(t_stacklist *lst, char **str)
 	int		i;
 
 	lst->head = (t_node **)malloc(sizeof(t_node *));
-	// a.tail = (t_node *)malloc(sizeof(t_node *));
+	*(lst->head) = (t_node *){0};
 	i = 0;
 	while (i < lst->len)
 	{
@@ -88,6 +88,10 @@ void	make_new_list(t_stacklist *lst, char **str)
 		add_node_to_back(lst->head, new_node);
 		i++;
 	}
+	lst->tail = (t_node **)malloc(sizeof(t_node *));
+	*(lst->tail) = new_node;
+	// printf("in make new list tail val is: %d\n", (*(lst->tail))->val );
+	// printf("in make new list head val is: %d\n", (*(lst->head))->val );
 }
 
 void	free_list(t_stacklist *lst)
@@ -101,16 +105,17 @@ void	free_list(t_stacklist *lst)
 		printf("in free_list\n");
 		next = this_node->nx;
 		free(this_node);
-		this_node = next; 
+		this_node = next;
 	}
+	free(lst->head);
+	free(lst->tail);
 }
 
-void find_total_desired_rank(t_stacklist *s, char *av[])
+int find_total_desired_rank(t_stacklist *s, char *av[])
 {
-//find out tdr using array
 	int *tmp_arr;
+	// tmp_arr = NULL;
 	tmp_arr = malloc(sizeof(int) * (s->len));
-
 	//write from av to array
 	int c = -1;
 	while (++c < s->len)
@@ -136,11 +141,75 @@ void find_total_desired_rank(t_stacklist *s, char *av[])
 	iter_stacklist(s, tmp_arr, putstruct);
 	free(tmp_arr);
 	printf("after iter\n");
+	return 1;
+}
+
+void	solve_for_two(t_stacklist *a)
+{
+	if ((*a->head)->tcr != (*a->head)->tdr)
+	{
+		write(1, "sa\n", 3);
+		(*a->head)->tcr = 0;
+		(*a->tail)->tcr = 1;
+	}
+	return;
+}
+
+void	add_node_to_front(t_node **head, t_node *new_first_node)
+{
+	if (new_first_node)
+	{
+		new_first_node->nx = *head;
+		*head = new_first_node;
+	}
+}
+
+void	rem_node_from_front(t_node **head)
+{
+	*head = (*head)->nx;
+}
+
+void	update_len(t_stacklist *lst)
+{
+	t_node	*this_node;
+	int		len;
+
+	this_node = *lst->head;
+	len = 0;
+	while(this_node)
+	{
+		len++;
+		this_node = this_node->nx;
+	}
+	lst->len = len;
+}
+
+void	push_to(t_stacklist b, t_stacklist a)
+{
+
+
+	add_node_to_front(b.head, *a.head);
+	printf("in push to\n");
+	rem_node_from_front(a.head);
+
+	update_len(&a);
+	update_len(&b);
+	write(1, "pb\n", 3);
 }
 
 void	solve(t_systm s)
 {
-	printf("s.a.len is: %d\n", s.a.len);
+	if (s.a.len < 2)
+		return ;
+	else if (s.a.len == 2)
+		solve_for_two(&(s.a));
+
+	else if (s.a.len > 2)
+	{
+		printf("in solve 204\n");
+		push_to(s.b, s.a);
+		solve(s);
+	}
 }
 
 void	print_list(t_stacklist *lst)
@@ -159,25 +228,28 @@ void	print_list(t_stacklist *lst)
 
 int	main(int ac, char *av[])
 {
-	t_stacklist	a;
 	t_systm		system;
+	t_stacklist	*a;
+	t_stacklist	*b;
+
+	a = malloc(sizeof(t_stacklist) * 1);
+	b = malloc(sizeof(t_stacklist) * 1);
 	// t_stacklist cmp;
 	// int			i;
 	// t_node *new;
+	// a = (t_stacklist){0};
+	a->len = ac -1;
+	make_new_list(a, av);
 
-	a.len = ac -1;
-	make_new_list(&a, av);
+	find_total_desired_rank(a, av);
+	print_list(a);
 
-	find_total_desired_rank(&a, av);
-	print_list(&a);
-
-	system.a = a;
+	system.a = *a;
+	system.b = *b;
 	solve(system); //prints &a
-	// printf("a.len is: %d\n", a.len );
-	//free
-	free_list(&a);
-	free(a.head);
-	// free(a);
-
+	// solve(a);
+	free_list(a);
+	free(a);
+	free(b);
 	return (0);
 }

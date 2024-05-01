@@ -60,8 +60,8 @@ typedef	struct s_stack
 	t_node	**tail;
 	int		max;
 	int		min;
-	int		sorted;
-	int		op;
+	// int		sorted;
+	// int		op;
 
 }	t_stacklist;
 
