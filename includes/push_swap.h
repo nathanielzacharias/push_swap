@@ -71,8 +71,8 @@ typedef	struct s_stack
 */
 typedef struct s_ps_system
 {
-	t_stack	a;
-	t_stack	b;
+	t_stacklist	a;
+	t_stacklist	b;
 	int		is_done;
 }	t_systm;
 
